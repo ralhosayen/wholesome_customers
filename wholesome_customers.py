@@ -6,7 +6,7 @@ import seaborn as sns
 import plotly.express as px
 import plotly.graph_objects as go
 
-df = df = pd.read_csv("wholesome_customers_data.csv")
+df = pd.read_csv("wholesome_customers_data.csv")
 
 
 
