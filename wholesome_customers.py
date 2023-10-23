@@ -32,12 +32,13 @@ def main():
 
 
  
-	elif choice=="Exploratory Data Analysis Section":
+	elif choice=="Exploratory Data Analysis":
+		st.write("Exploratory Data Analysis Section")
 		
 		
 	 
 	elif choice == "SQL Playground": 
-		 import sqlite3 
+		 st.write("SQL Playground")
 
         elif choice == "GPT-4 Chat": 
 		 st.write("GPT-4 Chat")
