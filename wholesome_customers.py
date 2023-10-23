@@ -39,10 +39,10 @@ def main():
 	elif choice == "SQL Playground": 
 		 import sqlite3 
 
-  elif choice == "GPT-4 Chat": 
+        elif choice == "GPT-4 Chat": 
 		 st.write("GPT-4 Chat")
 
-  elif choice == "Dall-E image Generator": 
+        elif choice == "Dall-E image Generator": 
 		 st.write("Dall-E image Generator")
 
 	elif choice=="About":
