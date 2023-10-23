@@ -25,7 +25,7 @@ def main():
 		st.write ("3) SQL Playground")
 		st.write ("4) GPT-4 Chat Box")
 		st.write ("5) Dall-E Image Generator")
-		st.write ("6) Dall-E Image Generator")
+		st.write ("6) About")
 
 
 		st.markdown("---")
