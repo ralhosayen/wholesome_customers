@@ -40,7 +40,7 @@ def main():
 	elif choice == "SQL Playground": 
 		 st.write("SQL Playground")
 
-        elif choice == "GPT-4 Chat": 
+	elif choice == "GPT-4 Chat": 
 		 st.write("GPT-4 Chat")
 
         elif choice == "Dall-E image Generator": 
