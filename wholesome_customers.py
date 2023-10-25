@@ -1,13 +1,15 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import openai
+import os
 
 df = pd.read_csv("wholesome_customers_data.csv")
 
 
 def main():
 
-	menu = ["Home", "Exploratory Data Analysis", "SQL Playground", "GPT-4 Chat", "Dall-E image Generator", "About"]
+	menu = ["Home", "Exploratory Data Analysis", "SQL Playground", "GPT-3.5 Chat", "Dall-E image Generator", "About"]
 
 	choice = st.sidebar.selectbox("Menu", menu)
 
@@ -36,23 +38,28 @@ def main():
 	elif choice == "SQL Playground": 
 		 st.write("SQL Playground")
 
-	elif choice == "GPT-4 Chat": 
-		 st.write("GPT-4 Chat")
+	elif choice == "GPT-3.5 Chat": 
 		
+		 st.write("GPT-3.5 Turbo Chat")
+		 
 		 with open('chatgptkey.txt', 'r') as f:
 			 api_key = f.read().strip('\n')
-			 openai.api_key = api_key
-
-	         
-		 def gpt_classify_sentiment(prompt, emotions):
-			system_prompt = f'''You are an emotionally intelligent assistant.
-                        Classify the sentiment of the user's text with ONLY ONE OF THE FOLLOWING EMOTIONS: {emotions}.
-                        After classifying the text, respond with the emotion ONLY.'''
-                        response = openai.ChatCompletion.create(model='gpt-3.5-turbo',messages=[{'role': 'system', 'content': system_prompt}, {'role': 'user', 'content': prompt}],max_tokens=20,temperature=0)
-                        r = response['choices'][0].message.content
-			if r == '':
-				r = 'N/A'
-			return r
+                 openai.api_key = api_key
+		 
+		 user_input = st.text_input("Prompt:")
+		 
+		if user_input:
+			response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": user_input}
+        ]
+    )
+			if response['choices'][0]['message']['role'] == 'assistant':
+        generated_text = response['choices'][0]['message']['content']
+        st.write("Response:")
+        st.write(generated_text)
 
 	elif choice == "Dall-E image Generator": 
 		 st.write("Dall-E image Generator")
