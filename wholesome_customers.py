@@ -4,6 +4,7 @@ import numpy as np
 import os
 import csv
 import sqlite3 
+import openai
 
 df = pd.read_csv("wholesome_customers_data.csv")
 
