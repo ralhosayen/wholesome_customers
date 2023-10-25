@@ -38,6 +38,21 @@ def main():
 
 	elif choice == "GPT-4 Chat": 
 		 st.write("GPT-4 Chat")
+		
+		 with open('chatgptkey', 'r') as f:
+			 api_key = f.read().strip('\n')
+			 openai.api_key = api_key
+
+	         
+		 def gpt_classify_sentiment(prompt, emotions):
+			system_prompt = f'''You are an emotionally intelligent assistant.
+                        Classify the sentiment of the user's text with ONLY ONE OF THE FOLLOWING EMOTIONS: {emotions}.
+                        After classifying the text, respond with the emotion ONLY.'''
+                        response = openai.ChatCompletion.create(model='gpt-3.5-turbo',messages=[{'role': 'system', 'content': system_prompt}, {'role': 'user', 'content': prompt}],max_tokens=20,temperature=0)
+                        r = response['choices'][0].message.content
+			if r == '':
+				r = 'N/A'
+			return r
 
 	elif choice == "Dall-E image Generator": 
 		 st.write("Dall-E image Generator")
