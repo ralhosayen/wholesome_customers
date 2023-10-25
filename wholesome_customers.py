@@ -39,7 +39,7 @@ def main():
 	elif choice == "GPT-4 Chat": 
 		 st.write("GPT-4 Chat")
 		
-		 with open('chatgptkey', 'r') as f:
+		 with open('chatgptkey.txt', 'r') as f:
 			 api_key = f.read().strip('\n')
 			 openai.api_key = api_key
 
