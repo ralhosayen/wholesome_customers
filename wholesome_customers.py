@@ -40,6 +40,8 @@ def main():
 
 	elif choice == "GPT-3.5 Chat": 
 		
+		 api_key = os.environ.get("OPENAI_API_KEY")
+		
 		 st.write("GPT-3.5 Turbo Chat")
 		 
 		 with open('chatgptkey.txt', 'r') as f:
