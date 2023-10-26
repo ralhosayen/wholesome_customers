@@ -6,6 +6,10 @@ import openai
 import os
 import csv
 import sqlite3
+import matplotlib.pyplot as plt
+import plotly.express as px
+import seaborn as sns
+import altair as alt
 from PIL import Image
 
 df = pd.read_csv("wholesome_customers_data.csv")
@@ -38,6 +42,100 @@ def main():
  
     elif choice=="Exploratory Data Analysis":
         st.write("Exploratory Data Analysis Section")
+
+	st.header('Exploratory Data Analysis')
+	st.markdown('## Python for Data Analysis 2')
+	st.markdown('#### Wholesome Customers Dataset Analysis') 
+	col1, col2, col3 = st.columns(3)
+	
+	with col1:
+		style = "<style>h2 {text-align: center;}</style>"
+		st.markdown(style, unsafe_allow_html=True)
+		st.subheader("Groceries")
+		st.image("https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")
+
+        with col2:
+		style = "<style>h2 {text-align: center;}</style>"
+		st.markdown(style, unsafe_allow_html=True)
+		st.subheader("Aisles")
+		st.image("https://images.pexels.com/photos/4053267/pexels-photo-4053267.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")
+		
+	with col3:
+		style = "<style>h2 {text-align: center;}</style>"
+		st.markdown(style, unsafe_allow_html=True)
+		st.subheader("Experiences")
+		st.image("https://images.pexels.com/photos/3985060/pexels-photo-3985060.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")
+		
+	st.markdown ('---')
+	
+	st.header('Exploratory data analysis - (EDA)')
+	st.markdown('#### Dataset composition')
+	st.markdown('###### The data set has 9 columns with 439 rows')
+	
+	data=pd.read_csv('wholesome_customers_data.csv')
+	st.dataframe(data)
+	st.markdown('---')
+	df=pd.read_csv('wholesome_customers_data.csv')
+	
+	region_dist=df['Region'].value_counts()
+	channel_dist=df['Channel'].value_counts()
+	st.markdown('---')
+	st.markdown('###### At regional level, there are 3 main regions were products are sold:')
+	    
+	with st.container():
+		c1,c2=st.columns(2)
+
+	with c1:
+		fig,ax=plt.subplots()
+		ax.pie(region_dist,autopct='%0.2f%%',labels=['Region 3','Region 1','Region 2'])
+		st.pyplot(fig)
+
+	with c2:
+		fig,ax=plt.subplots()
+		ax.bar(region_dist.index,region_dist)
+		st.pyplot(fig)
+
+	with st.expander('Click to see the data'):
+		st.dataframe(region_dist)
+		
+	st.markdown('---')
+	st.markdown('###### Regarding channels to purchase, there are 2 main channels identified with the following distribution:')
+	    
+	with st.container():
+		c1,c2=st.columns(2)
+
+	with c1:
+		fig,ax=plt.subplots()
+		ax.pie(channel_dist,autopct='%0.2f%%',labels=['Channel 1','Channel 2'])
+		st.pyplot(fig)
+
+	with c2:
+		fig,ax=plt.subplots()
+		ax.bar(channel_dist.index,channel_dist)
+		st.pyplot(fig)
+
+	with st.expander('Click to see the data'):
+		st.dataframe(channel_dist)
+		
+	st.markdown('---')
+	st.markdown('###### We would like to understand better your wholesome buying preferences, please help us to answer the following questions:')
+	the_best=st.selectbox('What is your favourite wholesome category?',('Fresh','Milk','Grocery','Frozen','Detergents_Paper','Delicassen'))
+	st.write('Your selection is:',the_best)
+	    
+	st.markdown('---')
+	    
+	regions=st.multiselect('In which regions do you buy your groceries?',['Region 1','Region 2','Region 3'])
+	    
+	st.markdown('---')
+	    
+	about_you=st.text_area(label='Talk more about you wholesome preferences')
+	    
+	your_info=st.button('Submit your data')
+	if your_info:
+		info={'Favourite wholesome':the_best,'Regions of purchase':regions,'About you':about_you}
+		st.json(info)
+
+
         
         
      
