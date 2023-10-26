@@ -41,7 +41,6 @@ def main():
 
  
      elif choice=="Exploratory Data Analysis":
-	    
 	st.write("Exploratory Data Analysis Section")
 	st.header('Exploratory Data Analysis')
 	st.markdown('## Python for Data Analysis 2')
