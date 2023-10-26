@@ -39,11 +39,10 @@ def main():
     	st.markdown("---")
     
     elif choice=="Exploratory Data Analysis":
-
-	 st.header('Exploratory Data Analysis')
-	st.markdown('## Python for Data Analysis 2')
-	st.markdown('#### Wholesome Customers Dataset Analysis') 
-	col1, col2, col3 = st.columns(3)
+	    st.header('Exploratory Data Analysis')
+	    st.markdown('## Python for Data Analysis 2')
+	    st.markdown('#### Wholesome Customers Dataset Analysis') 
+	    col1, col2, col3 = st.columns(3)
 	
 	with col1:
 		style = "<style>h2 {text-align: center;}</style>"
