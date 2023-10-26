@@ -40,7 +40,7 @@ def main():
     
     elif choice=="Exploratory Data Analysis":
 
-	st.header('Exploratory Data Analysis')
+	 st.header('Exploratory Data Analysis')
 	st.markdown('## Python for Data Analysis 2')
 	st.markdown('#### Wholesome Customers Dataset Analysis') 
 	col1, col2, col3 = st.columns(3)
