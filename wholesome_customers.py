@@ -37,10 +37,8 @@ def main():
     	st.write ("5) About - General informations")
     	st.write ("For this project, we are using the wholesome_customers.csv dataset.")
     	st.markdown("---")
-
-
- 
-     elif choice=="Exploratory Data Analysis":
+    
+    elif choice=="Exploratory Data Analysis":
 	st.write("Exploratory Data Analysis Section")
 	st.header('Exploratory Data Analysis')
 	st.markdown('## Python for Data Analysis 2')
