@@ -43,24 +43,24 @@ def main():
 	    st.markdown('## Python for Data Analysis 2')
 	    st.markdown('#### Wholesome Customers Dataset Analysis') 
 	    col1, col2, col3 = st.columns(3)
-	
-	with col1:
-		style = "<style>h2 {text-align: center;}</style>"
-		st.markdown(style, unsafe_allow_html=True)
-		st.subheader("Groceries")
-		st.image("https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")
-
-        with col2:
-		style = "<style>h2 {text-align: center;}</style>"
-		st.markdown(style, unsafe_allow_html=True)
-		st.subheader("Aisles")
-		st.image("https://images.pexels.com/photos/4053267/pexels-photo-4053267.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")
-		
-	with col3:
-		style = "<style>h2 {text-align: center;}</style>"
-		st.markdown(style, unsafe_allow_html=True)
-		st.subheader("Experiences")
-		st.image("https://images.pexels.com/photos/3985060/pexels-photo-3985060.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")
+	    
+	    with col1:
+		    style = "<style>h2 {text-align: center;}</style>"
+		    st.markdown(style, unsafe_allow_html=True)
+		    st.subheader("Groceries")
+		    st.image("https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")
+		    
+	    with col2:
+		    style = "<style>h2 {text-align: center;}</style>"
+		    st.markdown(style, unsafe_allow_html=True)
+		    st.subheader("Aisles")
+		    st.image("https://images.pexels.com/photos/4053267/pexels-photo-4053267.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")
+		    
+	    with col3:
+		    style = "<style>h2 {text-align: center;}</style>"
+		    st.markdown(style, unsafe_allow_html=True)
+		    st.subheader("Experiences")
+		    st.image("https://images.pexels.com/photos/3985060/pexels-photo-3985060.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")
 		
 	st.markdown ('---')
 	
