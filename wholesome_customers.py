@@ -116,6 +116,17 @@ def main():
 		    st.dataframe(channel_dist)
 		
 	    st.markdown('---')
+	    path=st.multiselect("Region and Channel Interaction:",('Region','Channel'))
+	    fig=px.sunburst(data_frame=data,path=path)
+	    st.plotly_chart(fig)
+	    st.markdown('---')
+	    st.subheader('The Distribution of Purchases per Region and Channel')
+	    select = st.selectbox('Select the source of purchase', ('Channel', 'Region'))
+	    x_variable = st.selectbox('Select the type of purchase', ('Milk', 'Frozen','Grocery','Fresh'))
+	    fig = px.histogram(data_frame=df, x=x_variable, color=select)
+	    st.plotly_chart(fig)
+	    st.markdown('------')
+	    
 	    st.markdown('###### We would like to understand better your wholesome buying preferences, please help us to answer the following questions:')
 	    the_best=st.selectbox('What is your favourite wholesome category?',('Fresh','Milk','Grocery','Frozen','Detergents_Paper','Delicassen'))
 	    st.write('Your selection is:',the_best)
