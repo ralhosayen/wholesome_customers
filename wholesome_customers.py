@@ -23,6 +23,8 @@ def main():
     conn = sqlite3.connect('database_wholesome_customers_data.db')
     cursor = conn.cursor()
 
+
+
     if choice=="Home":
 
     	st.markdown("# Wholesome Customers App")
@@ -114,6 +116,17 @@ def main():
 		    st.dataframe(channel_dist)
 		
 	    st.markdown('---')
+	    path=st.multiselect("Region and Channel Interaction:",('Region','Channel'))
+	    fig=px.sunburst(data_frame=data,path=path)
+	    st.plotly_chart(fig)
+	    st.markdown('---')
+	    st.subheader('The Distribution of Purchases per Region and Channel')
+	    select = st.selectbox('Select the source of purchase', ('Channel', 'Region'))
+	    x_variable = st.selectbox('Select the type of purchase', ('Milk', 'Frozen','Grocery','Fresh'))
+	    fig = px.histogram(data_frame=df, x=x_variable, color=select)
+	    st.plotly_chart(fig)
+	    st.markdown('------')
+	    
 	    st.markdown('###### We would like to understand better your wholesome buying preferences, please help us to answer the following questions:')
 	    the_best=st.selectbox('What is your favourite wholesome category?',('Fresh','Milk','Grocery','Frozen','Detergents_Paper','Delicassen'))
 	    st.write('Your selection is:',the_best)
@@ -135,12 +148,16 @@ def main():
         
         
      
-    elif choice == "SQL Playground": 
+    elif choice == "SQL Playground":
+
+
+ 
          st.markdown("# SQL Playground")
 
          image = Image.open('Unknown.png')
 
          st.image(image)
+
 
          st.markdown("""
          	## Welcome to Our Database Management Tool
@@ -164,95 +181,115 @@ def main():
          conn.close()
 
          default_db =  os.path.basename(default_db_path[0][2])
-         st.info(f"### The default database used in this website is '{default_db}'  --> *status connected*")
-         col1,col2 = st.columns(2)
+         st.markdown("---")
 
-         with col1:
-	         uploaded_file = st.file_uploader("Choose a CSV file", accept_multiple_files=False)
-	         
-	         if uploaded_file is not None:
-	            st.write("File Name:", uploaded_file.name)
-	            file_name=uploaded_file.name
+         st.markdown("### Step 1 : Read the info message and validate the database	used by default ")
 
-	         #st.button("Reset", type="primary")
-	         if st.button(f"IMPORT FILE TO DATABASE"):
-	            df=pd.read_csv(uploaded_file)
-	            list_features=df.columns.tolist()
-	            table_name = 'table_' + file_name.split('.')[0]
-	            db_name = 'database_' + file_name.split('.')[0] + '.db'
-	            debug=os.path.exists(db_name)
-	            if not os.path.exists(db_name):
-		            conn = sqlite3.connect(db_name)
-		            cursor = conn.cursor()
-		            with open(file_name, 'r') as csv_file:
-		                csv_reader = csv.reader(csv_file)
-		                # Read the header row to get column names and types
-		                header = next(csv_reader)
-		                # Create a table in the database using column names and text data type
-		                create_table_sql = f'CREATE TABLE IF NOT EXISTS {table_name} ({", ".join([f"{col} TEXT" for col in header])})'
-		                cursor.execute(create_table_sql)
-		                # Prepare an INSERT INTO statement with placeholders for the columns
-		                placeholders = ', '.join(['?' for _ in header])
-		                insert_sql = f'INSERT INTO {table_name} ({", ".join(header)}) VALUES ({placeholders})'
-		                # Iterate through the rows and insert them into the SQLite database
-		                for row in csv_reader:
-		                    cursor.execute(insert_sql, tuple(row))
-		            # Commit the changes and close the database connection
-		            conn.commit()
-		            conn.close()	 
-		            st.write(f"Database '{db_name}' and table '{table_name}' have been created and populated with data from the CSV file.")
-		            st.info("The csv file data has been inserted in the database")
-	            else:
-	            	conn = sqlite3.connect(db_name)
-	            	cursor = conn.cursor()
+         st.info(f"#### The default database used in this website is '{default_db}'  ")
+         
+         st.markdown("### Step 2 (Optional) : Upload a CSV file and insert it in the database")
 
-	            	# check if the table is empty
-	            	cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
-	            	row_count = cursor.fetchone()[0]
-	            	if row_count==0:
-	            		with open(file_name, 'r') as csv_file:
-		            		csv_reader = csv.reader(csv_file)
-		            		# Skip the header row
-		            		header=next(csv_reader,None)
-		            		#Prepare an INSERT INTO statement with placeholders for the columns
-		            		placeholders = ', '.join(['?' for _ in header])
-		            		insert_sql = f'INSERT INTO {table_name} ({", ".join(header)}) VALUES ({placeholders})'
-		            		# Iterate through the rows and insert them into the SQLite database
-		            		for row in csv_reader:
-		            			cursor.execute(insert_sql, tuple(row))
-		            	conn.commit()
-		            	st.write(f"Table '{table_name}' in database '{db_name}' has been populated with data from the CSV file.")
-		            	st.info("The csv file data has been inserted in the database")
-	            	else:
-	            		st.warning(f"Table '{table_name}' in database '{db_name}' is not empty. Skipping data insertion.")
-	            	conn.close()   
-	         # Columns/Layout
-         with col2:
-         	with st.form(key='query_form'):
-         		raw_code = st.text_area("SQL Code Here")
-         		submit_code = st.form_submit_button("Execute")
-         	# Table of Info
-         	with st.expander("Table Info"):
-	            """WORKING PROGRESS conn = sqlite3.connect(default_db)
+         uploaded_file = st.file_uploader("Choose a CSV file", accept_multiple_files=False)
+         
+         if uploaded_file is not None:
+            st.write("File Name:", uploaded_file.type)
+            file_name=uploaded_file.name
+            with st.spinner("Saving the uploaded file..."):
+            	with open("temp.csv", "wb") as f:
+            		f.write(uploaded_file.read())         
+         if st.button(f"IMPORT FILE TO DATABASE"):
+            #df=pd.read_csv(uploaded_file)
+            #list_features=df.columns.tolist()
+            table_name = 'table_' + file_name.split('.')[0]
+            db_name = 'database_' + file_name.split('.')[0] + '.db'
+            debug=os.path.exists(db_name)
+            st.write(db_name)
+            if not os.path.exists(db_name):
+	            conn = sqlite3.connect(db_name)
 	            cursor = conn.cursor()
-	            table_info = f'SELECT COLUMNS FROM {table_name}'
-	            cursor.execute(create_table_sql)
-	            st.write(table_info)
+	            with open("temp.csv", "r", encoding="utf-8") as csv_file:
+	                csv_reader = csv.reader(csv_file)
+	                # Read the header row to get column names and types
+	                header = next(csv_reader)
+	                # Create a table in the database using column names and text data type
+	                create_table_sql = f'CREATE TABLE IF NOT EXISTS {table_name} ({", ".join([f"{col} TEXT" for col in header])})'
+	                cursor.execute(create_table_sql)
+	                # Prepare an INSERT INTO statement with placeholders for the columns
+	                placeholders = ', '.join(['?' for _ in header])
+	                insert_sql = f'INSERT INTO {table_name} ({", ".join(header)}) VALUES ({placeholders})'
+	                # Iterate through the rows and insert them into the SQLite database
+	                for row in csv_reader:
+	                    cursor.execute(insert_sql, tuple(row))
+	            # Commit the changes and close the database connection
 	            conn.commit()
-	            conn.close()"""
-         # Results Layouts
+	            conn.close()	 
+	            st.write(f"Database '{db_name}' and table '{table_name}' have been created and populated with data from the CSV file.")
+	            st.info("The csv file data has been inserted in the database")
+            else:
+            	conn = sqlite3.connect(db_name)
+            	cursor = conn.cursor()
+
+            	# check if the table is empty
+            	cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
+            	row_count = cursor.fetchone()[0]
+            	if row_count==0:
+            		with open("temp.csv", "r", encoding="utf-8") as csv_file:
+	            		csv_reader = csv.reader(csv_file)
+	            		# Skip the header row
+	            		header=next(csv_reader,None)
+	            		#Prepare an INSERT INTO statement with placeholders for the columns
+	            		placeholders = ', '.join(['?' for _ in header])
+	            		insert_sql = f'INSERT INTO {table_name} ({", ".join(header)}) VALUES ({placeholders})'
+	            		# Iterate through the rows and insert them into the SQLite database
+	            		for row in csv_reader:
+	            			cursor.execute(insert_sql, tuple(row))
+	            	conn.commit()
+	            	st.write(f"Table '{table_name}' in database '{db_name}' has been populated with data from the CSV file.")
+	            	st.info("The csv file data has been inserted in the database")
+            	else:
+            		st.warning(f"Table '{table_name}' in database '{db_name}' is not empty. Skipping data insertion.")
+            	conn.close()
+            # Columns/Layout
+            #with col2:
+
+         st.markdown("### Step 3  : Write an SQL query for the default database and click on the *Execute* button")
+    	
+         with st.form(key='query_form'):
+         	raw_code = st.text_area("SQL Code Here")
+         	submit_code = st.form_submit_button("Execute")
+         
+         st.markdown("### Step 4  : Read and Analyse the results")
+
+         with st.expander("Table Info"):
+         	conn = sqlite3.connect(default_db)
+         	cursor = conn.cursor()
+         	table_name_code='table_wholesome_customers_data'
+         	cursor = conn.execute(f"PRAGMA table_info({table_name_code})")
+         	table_info = cursor.fetchall()
+         	st.write(table_info)
          if submit_code:
          	st.info("Query Submitted")
          	st.code(raw_code)
          	# Results
-         	query_results = sql_executor(raw_code)
-         	with st.expander("Results"):
+         	conn = sqlite3.connect(default_db)
+         	cursor = conn.cursor()
+         	table_name_code='table_wholesome_customers_data'
+         	cursor = conn.execute(f"PRAGMA table_info({table_name_code})")
+         	columns = [row[1] for row in cursor.fetchall()]
+         	
+         	cursor.execute(raw_code)
+         	query_results=cursor.fetchall()
+         	with st.expander("Results Raw"):
          		st.write(query_results)
-         	with st.expander("Pretty Table"):
-         		query_df = pd.DataFrame(query_results)
-         		st.dataframe(query_df)   
-
+         	with st.expander("Data Frame"):
+         		query_df = pd.DataFrame(query_results, columns=columns)
+         		st.dataframe(query_df)
          st.markdown("---")      
+
+         
+
+
+         #st.button("Reset", type="primary")
 
 
 
