@@ -122,7 +122,7 @@ def main():
 	    st.markdown('---')
 	    st.subheader('The Distribution of Purchases per Region and Channel')
 	    select = st.selectbox('Select the source of purchase', ('Channel', 'Region'))
-	    x_variable = st.selectbox('Select the type of purchase', ('Milk', 'Frozen','Grocery','Fresh'))
+	    x_variable = st.selectbox('Select the type of purchase', ('Milk', 'Frozen','Grocery','Fresh','Detergents_Paper','Delicassen'))
 	    fig = px.histogram(data_frame=df, x=x_variable, color=select)
 	    st.plotly_chart(fig)
 	    st.markdown('------')
